@@ -62,6 +62,7 @@ export default function Assignments() {
                   className="me-3 fs-3"
                   style={{ color: "green" }}
                 />
+                
                 <div className="m-2 p-2">
                   <a
                     className="wd-assignment-link"

@@ -2,7 +2,7 @@ import ModulesControls from "./ModulesControls";
 import { BsGripVertical } from "react-icons/bs";
 import LessonControlButtons from "./LessonControlButtons";
 import ModuleControlButtons from "./ModuleControlButtons";
-
+import "./index.css";
 export default function Modules() {
 
     return (
@@ -16,7 +16,7 @@ export default function Modules() {
           Week 1
           <ModuleControlButtons />
           </div>
-          <ul className="wd-lessons list-group rounded-0">
+          <ul className="wd-lessons wd-list-item-border-left-green list-group rounded-0">
             <li className="wd-lesson list-group-item p-3 ps-1">
             <BsGripVertical className="me-2 fs-3" />
             LEARNING OBJECTIVES
@@ -52,7 +52,7 @@ export default function Modules() {
             Week 2
             <ModuleControlButtons />
           </div>
-          <ul className="wd-lessons list-group rounded-0">
+          <ul className="wd-lessons wd-list-item-border-left-green list-group rounded-0">
             <li className="wd-lesson list-group-item p-3 ps-1">
             <BsGripVertical className="me-2 fs-3" />
             LEARNING OBJECTIVES
