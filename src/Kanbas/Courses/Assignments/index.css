@@ -1,0 +1,27 @@
+.input-group-text {
+    background-color: #fff;
+    border-right-color: #fff;
+}
+
+#wd-assignment-list > .list-group-item {
+    color: black;
+    background-color: white;
+    border-left: 4px solid rgb(2, 151, 2) !important;
+}
+
+.square-button {
+    border: 1px solid gray;
+    border-radius: 0;
+    width: 100px;
+    height: 40px;
+  }
+
+  .custom-button-cancel {
+    color: black;
+    background-color: white;
+  }
+
+  .custom-button-save {
+    color: white;
+    background-color: rgb(178, 2, 2);
+  }
