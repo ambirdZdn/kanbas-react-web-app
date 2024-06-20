@@ -4,15 +4,26 @@ import { LiaFileExportSolid } from "react-icons/lia";
 import { IoMdSettings } from "react-icons/io";
 import { TbFileImport } from "react-icons/tb";
 import { CiFilter } from "react-icons/ci";
+import { grades, enrollments, assignments, users } from "../../Database";
+import { useParams } from "react-router-dom";
 
-const students = [
-    "Student 1",
-    "Student 2",
-    "Student 3",
-    "Student 4"
-  ];
 
 export default function Grades() {
+  
+  const { cid } = useParams(); 
+
+  const studentIds = enrollments
+    .filter((enrollment) => enrollment.course === cid)
+    .map((enrollment) => enrollment.user);
+
+  const students = studentIds
+    .map((studentId) => users.find((user) => user._id === studentId))
+    .filter((student) => student !== undefined);
+
+  const courseAssignments = assignments.filter(
+    (assignment) => assignment.course === cid
+  );
+
     return (
       <div id="wd-grades" className="ms-5">
     
@@ -94,42 +105,41 @@ export default function Grades() {
           <thead>
             <tr className="text-center">
               <th>Student Name</th>
-              <th>
-                <strong>A1 SETUP</strong> <br />
-                <small>Out of 100</small>
-              </th>
-              <th>
-                <strong>A2 HTML</strong> <br />
-                <small>Out of 100</small>
-              </th>
-              <th>
-                <strong>A3 CSS</strong> <br />
-                <small>Out of 100</small>
-              </th>
-              <th>
-                <strong>A4 BOOTSTRAP</strong> <br />
-                <small>Out of 100</small>
-              </th>
+              {courseAssignments.map((assignment) => (
+                <th key={assignment._id}>
+                  <strong>{assignment.title}</strong> <br />
+                  <small>Out of 100</small>
+                </th>
+              ))}
             </tr>
           </thead>
           <tbody>
-            {students.map((student, index) => (
-              <tr key={index}>
-                <td className="text-danger">{student}</td>
-                {Array(4).fill(0).map((_, i) => (
-                  <td key={i}>
-                    <input
-                      type="text"
-                      className="form-control border-0 text-center"
-                      defaultValue="100%"
-                    />
-                  </td>
-                ))}
-              </tr>
-            ))}
+            {students.map((student) => {
+              if (!student) {
+                return null; 
+              }
+
+              return (
+                <tr key={student._id}>
+                  <td className="text-danger">{`${student.firstName} ${student.lastName}`}</td>
+                  {courseAssignments.map((assignment) => {
+                    const grade = grades.find(
+                      (grade) =>
+                        grade.student === student._id &&
+                        grade.assignment === assignment._id
+                    );
+                    return (
+                      <td key={assignment._id} className="text-center">
+                        {grade ? grade.grade : "-"}
+                      </td>
+                    );
+                  })}
+                </tr>
+              );
+            })}
           </tbody>
-        </table>
+          </table>
+        </div>
       </div>
-    </div>
-  );
-}
+    );
+  }

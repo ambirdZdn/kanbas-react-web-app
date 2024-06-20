@@ -1,20 +1,30 @@
 import React, { useState } from 'react';
+import { useParams } from 'react-router-dom';
+import * as db from "../../Database";
 import './index.css';
+
 export default function AssignmentEditor() {
   const [submissionType, setSubmissionType] = useState('Online');
+  const { cid, aid } = useParams<{ cid: string; aid: string }>();
+  const assignment = db.assignments.find((assignment) => assignment.course === cid && assignment._id === aid);
+
+  if (!assignment) {
+    return <div>Assignment not found</div>;
+  }
 
   const handleSubmissionTypeChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSubmissionType(event.target.value);
   };
-
+  
   return (
     <div className="container p-5">
-      <div id = "wd-name" className="mb-2">
+      <div id="wd-name" className="mb-2">
         <label htmlFor="wd-name" className="fw-bold">Assignment Name</label><br /><br />
-        <input id="wd-name" className="form-control border form-border-gray" value="A1" />
+        <input id="wd-name" className="form-control border form-border-gray" value={assignment.title} readOnly />
       </div>
 
       <div className="form-control border form-border-gray mb-3">
+        <p>{assignment.description}</p>
         <p>The assignment is <span className="text-danger">available online.</span></p>
         <p>Submit a link to the landing page of your Web application running on Netlify.</p>
         <p>The landing page should include the following:</p>
@@ -30,7 +40,7 @@ export default function AssignmentEditor() {
       <div className="row mb-3">
         <label htmlFor="wd-points" className="col-sm-4 col-form-label text-end">Points</label>
         <div className="col-sm-8">
-          <input type="text" className="form-control" id="wd-points" value={100} />
+          <input type="text" className="form-control" id="wd-points" value={assignment.points} readOnly />
         </div>
       </div>
 
@@ -93,7 +103,6 @@ export default function AssignmentEditor() {
         </div>
       </div>
 
-
       <div className="row mb-3">
         <label htmlFor="wd-assign-to" className="col-sm-4 col-form-label text-end">Assign to</label>
         <div className="col-sm-8">
@@ -104,14 +113,14 @@ export default function AssignmentEditor() {
       <div className="row mb-3">
         <label htmlFor="wd-due-date" className="col-sm-4 col-form-label text-end">Due</label>
         <div className="col-sm-8">
-          <input id="wd-due-date" className="form-control" type="date" value="2024-05-13" />
+          <input id="wd-due-date" className="form-control" value={assignment.due} readOnly />
         </div>
       </div>
 
       <div className="row mb-3">
         <label htmlFor="wd-available-from" className="col-sm-4 col-form-label text-end">Available from</label>
         <div className="col-sm-8">
-          <input id="wd-available-from" className="form-control" type="date" value="2024-05-13" />
+          <input id="wd-available-from" className="form-control" value={assignment.available} readOnly />
         </div>
       </div>
 
@@ -129,7 +138,6 @@ export default function AssignmentEditor() {
           <button className="btn btn-lg square-button custom-button-save text-center">Save</button>
         </div>
       </div>
-
     </div>
   );
 }
