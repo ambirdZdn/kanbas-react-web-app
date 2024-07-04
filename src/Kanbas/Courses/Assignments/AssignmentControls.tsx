@@ -1,11 +1,14 @@
 import "./index.css";
 import { BsPlus, BsSearch, BsGripVertical } from "react-icons/bs";
+import AssignmentEditor from "./Editor";
 
+export default function AssignmentControls(
+    {assignmentsName, setAssignmentsName, addAssignments }:
+    {assignmentsName: string; setAssignmentsName: (name: string) => void; addAssignments: () => void; }) {
 
-export default function AssignmentControls() {
     return (
         <div
-            id="wd-modules-controls"
+            id="wd-assignments-controls"
             className="text-nowrap"
             style={{ display: "flex", justifyContent: "space-between" }}
         >
@@ -22,7 +25,8 @@ export default function AssignmentControls() {
             </div>
             <br />
             <div>
-                <button className="btn btn-lg btn-danger me-1 float-end">
+                <button className="btn btn-lg btn-danger me-1 float-end"
+                        data-bs-toggle="modal" data-bs-target="#wd-add-assignments-dialog" >
                     <BsPlus className="me-1" /> Assignment
                 </button>
 
@@ -31,7 +35,7 @@ export default function AssignmentControls() {
                     Group
                 </button>
             </div>
-            
+            <AssignmentEditor/>
             </div>
     );
 }
