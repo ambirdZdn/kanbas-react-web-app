@@ -1,4 +1,4 @@
- import CoursesNavigation from "./Navigation";
+import CoursesNavigation from "./Navigation";
 import Modules from "./Modules";
 import Home from "./Home";
 import Assignments from "./Assignments";

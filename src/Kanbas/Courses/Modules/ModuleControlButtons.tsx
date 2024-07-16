@@ -4,7 +4,8 @@ import GreenCheckmark from "./GreenCheckmark";
 import { FaTrash } from "react-icons/fa";
 import { FaPencil } from "react-icons/fa6";
 
-export default function ModuleControlButtons({ moduleId, deleteModule, editModule }: {
+export default function ModuleControlButtons(
+  { moduleId, deleteModule, editModule }: {
   moduleId: string; deleteModule: (moduleId: string) => void;
   editModule: (moduleId: string) => void }) {
   return (

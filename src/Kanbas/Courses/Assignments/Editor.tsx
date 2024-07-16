@@ -3,13 +3,14 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { addAssignment, updateAssignment } from './reducer';
 import './index.css';
+import * as client from './client';
 
 export default function AssignmentEditor() {
   const { cid, aid } = useParams<{ cid: string; aid: string }>();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const assignments = useSelector((state: any) => state.assignmentsReducer.assignments);
-  
+
   const [assignment, setAssignment] = useState({
     _id: '',
     title: 'New Assignment',
@@ -26,6 +27,10 @@ export default function AssignmentEditor() {
       const existingAssignment = assignments.find((a: any) => a._id === aid);
       if (existingAssignment) {
         setAssignment(existingAssignment);
+      } else {
+        client.findAssignmentsForCourse(aid).then((assignment) => {
+          setAssignment(assignment);
+        });
       }
     }
   }, [aid, assignments]);
@@ -37,11 +42,16 @@ export default function AssignmentEditor() {
 
   const handleSave = () => {
     if (aid) {
-      dispatch(updateAssignment(assignment));
+      client.updateAssignment(assignment).then((updatedAssignment) => {
+        dispatch(updateAssignment(updatedAssignment));
+        navigate(`/Kanbas/Courses/${cid}/Assignments`);
+      });
     } else {
-      dispatch(addAssignment({ ...assignment, _id: new Date().getTime().toString() }));
+      client.createAssignment(cid as string, assignment).then((newAssignment) => {
+        dispatch(addAssignment(newAssignment));
+        navigate(`/Kanbas/Courses/${cid}/Assignments`);
+      });
     }
-    navigate(`/Kanbas/Courses/${cid}/Assignments`);
   };
 
   const handleCancel = () => {
@@ -137,7 +147,6 @@ export default function AssignmentEditor() {
             <button className="btn btn-lg square-button custom-button-save text-center" onClick={handleSave}>Save</button>
           </div>
         </div>
-
       </div>
     </div>
   );
