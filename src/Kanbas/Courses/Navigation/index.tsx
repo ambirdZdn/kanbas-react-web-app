@@ -10,7 +10,8 @@ export default function CoursesNavigation() {
     "Zoom", 
     "Assignments", 
     "Quizzes", 
-    "Grades"
+    "Grades",
+    "People",
   ];
   return (
     <div id="wd-courses-navigation" className="list-group rounded-0">
